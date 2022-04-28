@@ -1,0 +1,22 @@
+{
+  "name": "image-analysis",
+  "version": "1.0.0",
+  "description": "AWS Lambda to analyse image with Aws Rekognition",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eddcp/serverless-image-analysis.git"
+  },
+  "author": "Eduardo Costa de Paiva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eddcp/serverless-image-analysis/issues"
+  },
+  "homepage": "https://github.com/Eddcp/serverless-image-analysis#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1124.0"
+  }
+}
