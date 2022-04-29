@@ -5,6 +5,11 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - rekognition:DetectLabels
+      Resource: "*"
 
 functions:
   image-analysis:

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Eddcp/serverless-image-analysis#readme",
   "dependencies": {
     "aws-sdk": "^2.1124.0",
+    "axios": "^0.27.2",
     "jest": "^28.0.2"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 const { promises : { readFile }} = require('fs');
+const { get } = require('axios');
 
 class ImageAnalyzerHandler {
   constructor({ rekoSvc }) {
@@ -19,16 +20,49 @@ class ImageAnalyzerHandler {
       .map(({ Name }) => Name)
       .join(' and ');
 
-    console.log({ labelNames, confidenceGreaterThan80Items});
+    return { labelNames, confidenceGreaterThan80Items} ;
+  }
+
+  
+  splitNames(names) {
+    return names.split(' and ');
+  }
+
+  formatTextResults(names, confidenceGreaterThan80Items) {
+    const finalText = [];
+    for(const index in names) {
+      const namesOfImages = names[index];
+      const confidence = confidenceGreaterThan80Items[index].Confidence;
+      finalText.push(
+        `${confidence.toFixed(2)}% of being ${namesOfImages}`
+      )
+    }
+    return finalText.join('\n');
+  }
+
+  async getImageBuffer(imageUrl) {
+    const response = await get(imageUrl, {
+      responseType: 'arraybuffer'
+    });
+    console.log(response.data);
+    const buffer = Buffer.from(response.data, 'base64');
+    return buffer;
   }
 
   async main(event) {
     try {
-      const imgBuffer = await readFile('./images/pandora.jpeg');
-      await this.detectImageLabels(imgBuffer);
+      const { imageUrl } = event.queryStringParameters;
+      console.log('Downloading image...');
+      const imgBuffer = await this.getImageBuffer(imageUrl);
+
+      console.log('Detecting labels...');
+      const {labelNames, confidenceGreaterThan80Items} = await this.detectImageLabels(imgBuffer);
+
+      const finalText = this.formatTextResults(this.splitNames(labelNames), confidenceGreaterThan80Items);
+      console.log('Finishing...');
       return {
         statusCode: 200,
-        body: 'Hello!'
+        body: `The image has\ `.concat(finalText)
       }
     } catch(error) {
       console.log('Error***', error.stack);
