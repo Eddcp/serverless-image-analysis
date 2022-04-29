@@ -4,7 +4,8 @@
   "description": "AWS Lambda to analyse image with Aws Rekognition",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:debug": "jest --runInBand"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,10 @@
   },
   "homepage": "https://github.com/Eddcp/serverless-image-analysis#readme",
   "dependencies": {
-    "aws-sdk": "^2.1124.0"
+    "aws-sdk": "^2.1124.0",
+    "jest": "^28.0.2"
+  },
+  "devDependencies": {
+    "aws-sdk-mock": "^5.7.0"
   }
 }
